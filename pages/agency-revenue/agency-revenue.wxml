@@ -1,0 +1,114 @@
+<!-- pages/agency-revenue/agency-revenue.wxml -->
+<view class="revenue-page">
+
+  <!-- 顶部汇总卡 -->
+  <view class="summary-header">
+    <view class="summary-main">
+      <text class="summary-main__label">总营收(元)</text>
+      <text class="summary-main__num">{{ totalRevenue }}</text>
+    </view>
+    <view class="summary-row">
+      <view class="summary-item">
+        <text class="summary-item__num">{{ monthRevenue }}</text>
+        <text class="summary-item__label">本月营收</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-item__num">{{ totalOrders }}</text>
+        <text class="summary-item__label">总订单</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-item__num">{{ completedOrders }}</text>
+        <text class="summary-item__label">已完成</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-item__num">{{ avgPrice }}</text>
+        <text class="summary-item__label">均单价</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 月度营收柱状图 -->
+  <view class="chart-card">
+    <view class="chart-card__title">
+      <van-icon name="chart-trending-o" size="32rpx" color="#FF9800"></van-icon>
+      <text class="chart-card__text">月度营收趋势</text>
+    </view>
+    <view class="bar-chart">
+      <view class="bar-chart__row" wx:for="{{ monthlyBars }}" wx:key="label">
+        <text class="bar-chart__label">{{ item.label }}</text>
+        <view class="bar-chart__track">
+          <view class="bar-chart__fill" style="width: {{ item.percent }}%;"></view>
+        </view>
+        <text class="bar-chart__val">¥{{ item.value }}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 订单状态分布（环形图） -->
+  <view class="chart-card">
+    <view class="chart-card__title">
+      <van-icon name="pie-chart-o" size="32rpx" color="#FF9800"></van-icon>
+      <text class="chart-card__text">订单状态分布</text>
+    </view>
+    <view class="donut-section">
+      <view class="donut-wrap">
+        <canvas canvas-id="donutCanvas" class="donut-canvas" id="donutCanvas"></canvas>
+        <view class="donut-center">
+          <text class="donut-center__num">{{ totalOrders }}</text>
+          <text class="donut-center__label">总订单</text>
+        </view>
+      </view>
+      <view class="donut-legend">
+        <view class="legend-item" wx:for="{{ statusLegend }}" wx:key="label">
+          <view class="legend-dot" style="background: {{ item.color }};"></view>
+          <text class="legend-label">{{ item.label }}</text>
+          <text class="legend-count">{{ item.count }}单</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务类型营收占比（横向柱状图） -->
+  <view class="chart-card">
+    <view class="chart-card__title">
+      <van-icon name="bar-chart-o" size="32rpx" color="#FF9800"></van-icon>
+      <text class="chart-card__text">服务类型营收</text>
+    </view>
+    <view class="cat-chart" wx:if="{{ categoryBars.length > 0 }}">
+      <view class="cat-chart__row" wx:for="{{ categoryBars }}" wx:key="label">
+        <view class="cat-chart__head">
+          <text class="cat-chart__label">{{ item.label }}</text>
+          <text class="cat-chart__amount">¥{{ item.value }}</text>
+        </view>
+        <view class="cat-chart__track">
+          <view class="cat-chart__fill" style="width: {{ item.percent }}%; background: {{ item.color }};"></view>
+        </view>
+        <text class="cat-chart__ratio">{{ item.ratio }}%</text>
+      </view>
+    </view>
+    <view class="empty-chart" wx:else>
+      <text class="empty-chart__text">暂无数据</text>
+    </view>
+  </view>
+
+  <!-- 订单趋势（最近7天） -->
+  <view class="chart-card">
+    <view class="chart-card__title">
+      <van-icon name="clock-o" size="32rpx" color="#FF9800"></van-icon>
+      <text class="chart-card__text">近7天订单量</text>
+    </view>
+    <view class="daily-chart">
+      <view class="daily-chart__col" wx:for="{{ dailyBars }}" wx:key="label">
+        <text class="daily-chart__val">{{ item.count }}</text>
+        <view class="daily-chart__bar-wrap">
+          <view class="daily-chart__bar" style="height: {{ item.percent }}%;"></view>
+        </view>
+        <text class="daily-chart__label">{{ item.label }}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "机构审核",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-loading": "@vant/weapp/loading/index"
+  }
+}

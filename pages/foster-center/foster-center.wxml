@@ -1,0 +1,119 @@
+<!-- pages/foster-center/foster-center.wxml -->
+<view class="fc-page">
+
+  <van-tabs active="{{ activeTab }}" bind:change="onTabChange" color="#FF9800" line-width="60rpx" swipeable>
+
+    <!-- ===== Tab 1: 我的发布 ===== -->
+    <van-tab title="我的发布">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !publishLoading && publishList.length === 0 }}">
+          <van-icon name="info-o" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无发布的寄养/领养信息</text>
+          <view class="empty-btn" bindtap="toPublish">
+            <van-icon name="plus" size="28rpx" color="#FF9800"></van-icon>
+            <text class="empty-btn-text">去发布</text>
+          </view>
+        </view>
+
+        <view class="card-list" wx:if="{{ publishList.length > 0 }}">
+          <view class="info-card" wx:for="{{ publishList }}" wx:key="_id" bindtap="onPublishTap" data-id="{{ item._id }}" data-type="{{ item.type }}">
+            <image class="info-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFit" />
+            <view class="info-card__body">
+              <view class="info-card__top">
+                <text class="info-card__name">{{ item.petName }}</text>
+                <van-tag wx:if="{{ item.type === 'foster' }}" type="warning" size="medium">寄养</van-tag>
+                <van-tag wx:if="{{ item.type === 'adopt' }}" type="success" size="medium">送养</van-tag>
+              </view>
+              <text class="info-card__breed" wx:if="{{ item.breed }}">{{ item.breed }}</text>
+              <view class="info-card__bottom">
+                <view class="info-card__loc" wx:if="{{ item.location }}">
+                  <van-icon name="location-o" size="22rpx" color="#bbb"></van-icon>
+                  <text class="info-card__loc-text">{{ item.location }}</text>
+                </view>
+                <view class="info-card__status">
+                  <van-tag wx:if="{{ item.status === 'open' }}" plain type="primary" size="medium">进行中</van-tag>
+                  <van-tag wx:if="{{ item.status === 'matched' }}" plain type="warning" size="medium">已匹配</van-tag>
+                  <van-tag wx:if="{{ item.status === 'completed' }}" plain type="success" size="medium">已完成</van-tag>
+                  <van-tag wx:if="{{ item.status === 'closed' }}" plain type="danger" size="medium">已关闭</van-tag>
+                </view>
+              </view>
+              <text class="info-card__time">{{ item.createTimeStr }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <!-- ===== Tab 2: 我领养/寄养的 ===== -->
+    <van-tab title="我参与的">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !joinLoading && joinList.length === 0 }}">
+          <van-icon name="friends-o" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无领养或寄养记录</text>
+        </view>
+
+        <view class="card-list" wx:if="{{ joinList.length > 0 }}">
+          <view class="info-card" wx:for="{{ joinList }}" wx:key="_id">
+            <image class="info-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFit" />
+            <view class="info-card__body">
+              <view class="info-card__top">
+                <text class="info-card__name">{{ item.petName }}</text>
+                <van-tag wx:if="{{ item.applyType === 'adopt' }}" type="success" size="medium">我领养</van-tag>
+                <van-tag wx:if="{{ item.applyType === 'foster' }}" type="warning" size="medium">我寄养</van-tag>
+              </view>
+              <text class="info-card__breed" wx:if="{{ item.breed }}">{{ item.breed }}</text>
+              <view class="info-card__bottom">
+                <text class="info-card__from">发布人: {{ item.authorName || '匿名' }}</text>
+                <view class="info-card__status">
+                  <van-tag wx:if="{{ item.applyStatus === 'pending' }}" plain type="primary" size="medium">申请中</van-tag>
+                  <van-tag wx:if="{{ item.applyStatus === 'approved' }}" plain type="success" size="medium">已通过</van-tag>
+                  <van-tag wx:if="{{ item.applyStatus === 'rejected' }}" plain type="danger" size="medium">已拒绝</van-tag>
+                </view>
+              </view>
+              <text class="info-card__time">{{ item.applyTimeStr }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <!-- ===== Tab 3: 机构订单 ===== -->
+    <van-tab title="机构订单">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !orderLoading && orderList.length === 0 }}">
+          <van-icon name="shop-o" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无机构寄养订单</text>
+        </view>
+
+        <view class="card-list" wx:if="{{ orderList.length > 0 }}">
+          <view class="order-card" wx:for="{{ orderList }}" wx:key="_id">
+            <view class="order-card__header">
+              <van-icon name="shop-o" size="32rpx" color="#FF9800"></van-icon>
+              <text class="order-card__agency">{{ item.agencyName || '机构服务' }}</text>
+              <van-tag wx:if="{{ item.orderStatus === 'pending' }}" type="warning" size="medium">待寄养</van-tag>
+              <van-tag wx:if="{{ item.orderStatus === 'confirmed' }}" type="primary" size="medium">寄养中</van-tag>
+              <van-tag wx:if="{{ item.orderStatus === 'in_progress' }}" color="#E8F5E9" text-color="#2E7D32" size="medium">寄养中</van-tag>
+              <van-tag wx:if="{{ item.orderStatus === 'to_confirm' }}" color="#FFF3E0" text-color="#E65100" size="medium">待取回</van-tag>
+              <van-tag wx:if="{{ item.orderStatus === 'completed' }}" type="success" size="medium">已取回</van-tag>
+              <van-tag wx:if="{{ item.orderStatus === 'cancelled' }}" type="danger" size="medium">已取消</van-tag>
+            </view>
+            <view class="order-card__body">
+              <image class="order-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+              <view class="order-card__info">
+                <text class="order-card__name">{{ item.serviceName }}</text>
+                <text class="order-card__pet">宠物: {{ item.petName || '-' }}</text>
+                <view class="order-card__price-row">
+                  <text class="order-card__price">¥{{ item.price }}</text>
+                  <text class="order-card__unit">{{ item.unit }}</text>
+                </view>
+                <text class="order-card__date" wx:if="{{ item.dateRange }}">{{ item.dateRange }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+  </van-tabs>
+
+</view>

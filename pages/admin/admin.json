@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "平台管理中心",
+  "usingComponents": {
+    "van-panel": "@vant/weapp/panel/index",
+    "van-cell": "@vant/weapp/cell/index"
+  }
+}

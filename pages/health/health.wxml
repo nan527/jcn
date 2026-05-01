@@ -1,0 +1,45 @@
+<!-- pages/health/health.wxml -->
+<view class="container">
+  <van-notice-bar
+    left-icon="volume-o"
+    text="AI 提醒：您的宠物奶球已经 3 个月没有接种疫苗了，请及时处理。"
+  />
+
+  <van-cell-group title="录入今日健康数据">
+    <van-field
+      label="今日体重"
+      value="{{ weight }}"
+      placeholder="kg"
+      type="digit"
+      bind:change="onWeightChange"
+    >
+      <van-button slot="button" size="small" type="primary" bindtap="saveHealthData" loading="{{loading}}">
+        录入并 AI 分析
+      </van-button>
+    </van-field>
+    <van-field
+      label="饮食情况"
+      value="{{ food }}"
+      placeholder="如：猫粮 50g，零食少量"
+      bind:change="onFoodChange"
+    />
+  </van-cell-group>
+
+  <view class="ai-card">
+    <van-panel title="AI 智能养护建议" status="由开源大模型提供">
+      <view class="ai-content">{{ aiSuggestion }}</view>
+    </van-panel>
+  </view>
+
+  <van-divider contentPosition="center">历史趋势 (最近 10 次记录)</van-divider>
+  
+  <view class="history-list">
+    <van-cell 
+      wx:for="{{ healthRecords }}" 
+      wx:key="_id" 
+      title="{{ item.value }}kg" 
+      value="{{ item.record_date }}" 
+      label="{{ item.food_intake }}" 
+    />
+  </view>
+</view>

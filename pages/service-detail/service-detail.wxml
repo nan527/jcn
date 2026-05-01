@@ -1,0 +1,88 @@
+<!-- pages/service-detail/service-detail.wxml -->
+<view class="detail-page" wx:if="{{ svc }}">
+
+  <!-- 图片轮播 -->
+  <swiper class="img-swiper" indicator-dots autoplay circular wx:if="{{ svc.images && svc.images.length > 0 }}">
+    <swiper-item wx:for="{{ svc.images }}" wx:key="*this">
+      <image class="swiper-img" src="{{ item }}" mode="aspectFill" data-src="{{ item }}" bindtap="previewImg" />
+    </swiper-item>
+  </swiper>
+  <view class="img-placeholder" wx:else>
+    <image src="/static/pet/logo.png" mode="aspectFit" style="width:160rpx;height:160rpx;opacity:.3;" />
+  </view>
+
+  <!-- 服务信息 -->
+  <view class="info-section">
+    <view class="svc-title-row">
+      <text class="svc-name">{{ svc.name }}</text>
+      <van-tag type="primary" color="#FFF3E0" text-color="#E65100" size="large">{{ catTitle }}</van-tag>
+    </view>
+    <view class="svc-price-row">
+      <text class="svc-price">¥{{ svc.price }}</text>
+      <text class="svc-unit">/{{ svc.unit }}</text>
+    </view>
+    <text class="svc-desc" wx:if="{{ svc.desc }}">{{ svc.desc }}</text>
+  </view>
+
+  <!-- 下单表单 -->
+  <view class="info-section" wx:if="{{ !ordering }}">
+    <view class="section-title">填写订单信息</view>
+
+    <view class="cage-panel" wx:if="{{ svc.category === 'foster' }}">
+      <view class="cage-panel__row">
+        <text class="cage-panel__title">机构笼位</text>
+        <text class="cage-panel__value">可用 {{ cageInfo.availableCages }} / 总数 {{ cageInfo.totalCages }}</text>
+      </view>
+      <text class="cage-panel__desc" wx:if="{{ cageInfo.cageDesc }}">{{ cageInfo.cageDesc }}</text>
+      <text class="cage-panel__warn" wx:if="{{ cageInfo.totalCages > 0 && cageInfo.availableCages <= 0 }}">当前笼位已满，暂不可下单</text>
+    </view>
+
+    <view class="pet-empty-tip" wx:if="{{ myPets.length === 0 }}">
+      <text class="pet-empty-tip__text">暂无宠物档案，请先添加宠物</text>
+      <view class="pet-empty-tip__btn" bindtap="toPetArchive">
+        <van-icon name="plus" size="24rpx" color="#FF9800"></van-icon>
+        <text style="color:#FF9800;font-size:26rpx;margin-left:8rpx;">去添加</text>
+      </view>
+    </view>
+
+    <view class="pet-selector" wx:if="{{ myPets.length > 0 }}">
+      <view
+        class="pet-opt {{ selectedPetId === item._id ? 'pet-opt--active' : '' }}"
+        wx:for="{{ myPets }}"
+        wx:key="_id"
+        data-id="{{ item._id }}"
+        bindtap="onSelectPet"
+      >
+        <image class="pet-opt__avatar" src="{{ item.photo || '/static/tab-pet-orange.png' }}" mode="aspectFill" />
+        <view class="pet-opt__info">
+          <text class="pet-opt__name">{{ item.name }}</text>
+          <text class="pet-opt__detail">{{ item.species }}{{ item.age ? ' · ' + item.age + '岁' : '' }}</text>
+        </view>
+        <van-icon wx:if="{{ selectedPetId === item._id }}" name="success" size="40rpx" color="#FF9800"></van-icon>
+      </view>
+    </view>
+
+    <view class="selected-pet" wx:if="{{ selectedPetId }}">
+      <text class="selected-pet__label">已选宠物：</text>
+      <text class="selected-pet__name">{{ petName }}</text>
+    </view>
+
+    <block wx:if="{{ svc.category === 'foster' }}">
+      <picker mode="date" start="{{ today }}" value="{{ checkinDate }}" bindchange="onCheckinDateChange">
+        <van-cell title="寄养开始日期" value="{{ checkinDate || '请选择' }}" is-link />
+      </picker>
+      <van-field label="寄养天数" type="number" value="{{ stayDays }}" bind:change="onStayDaysChange" placeholder="请输入寄养天数"></van-field>
+    </block>
+
+    <van-field label="联系电话" placeholder="请输入手机号" value="{{ phone }}" bind:change="onPhoneChange" type="number" required></van-field>
+    <van-field label="备注" placeholder="特殊需求说明（选填）" value="{{ remark }}" bind:change="onRemarkChange" type="textarea" autosize="{{ { minHeight: 60 } }}"></van-field>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar">
+    <van-button round type="primary" color="linear-gradient(135deg, #FF9800, #FFB74D)" block loading="{{ submitting }}" loading-text="提交中..." bindtap="onSubmitOrder">
+      立即下单
+    </van-button>
+  </view>
+
+</view>

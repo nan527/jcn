@@ -1,0 +1,208 @@
+/* pages/orders/orders.wxss */
+.orders-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.tab-body {
+  padding: 20rpx 24rpx 40rpx;
+  min-height: 60vh;
+}
+
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 0;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #bbb;
+  margin-top: 20rpx;
+}
+
+/* 订单卡片 */
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.o-card {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.o-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.o-card__type-badge {
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.badge-agency {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.badge-personal {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.o-card__body {
+  display: flex;
+  padding: 20rpx 24rpx;
+}
+
+.o-card__img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 16rpx;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.o-card__info {
+  flex: 1;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.o-card__name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.o-card__sub {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.o-card__remain {
+  font-size: 24rpx;
+  color: #2E7D32;
+  margin-top: 6rpx;
+}
+
+.o-card__remain--left {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.o-card__price {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #FF9800;
+  margin-top: 8rpx;
+}
+
+.o-card__time {
+  font-size: 22rpx;
+  color: #ccc;
+  margin-top: 6rpx;
+}
+
+/* 操作按钮 */
+.o-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12rpx 24rpx 18rpx;
+  border-top: 1rpx solid #f5f5f5;
+  gap: 16rpx;
+}
+
+/* 评价展示 */
+.o-card__review {
+  padding: 16rpx 24rpx 20rpx;
+  border-top: 1rpx solid #f5f5f5;
+  background: #FFFBF5;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.review-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.review-stars {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.review-content {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 评价弹窗 */
+.review-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.review-popup {
+  position: fixed;
+  left: 48rpx;
+  right: 48rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  z-index: 101;
+  box-shadow: 0 8rpx 40rpx rgba(0,0,0,0.15);
+}
+
+.review-popup__title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+
+.review-popup__rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-popup__label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.review-popup__actions {
+  display: flex;
+  margin-top: 28rpx;
+}

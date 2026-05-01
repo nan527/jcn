@@ -1,0 +1,187 @@
+<!-- pages/agency-orders/agency-orders.wxml -->
+<view class="ao-page">
+
+  <!-- 收入概览 -->
+  <view class="revenue-bar">
+    <view class="revenue-item">
+      <text class="revenue-num">{{ totalRevenue }}</text>
+      <text class="revenue-label">总收入(元)</text>
+    </view>
+    <view class="revenue-divider"></view>
+    <view class="revenue-item">
+      <text class="revenue-num">{{ totalOrders }}</text>
+      <text class="revenue-label">总订单</text>
+    </view>
+    <view class="revenue-divider"></view>
+    <view class="revenue-item">
+      <text class="revenue-num">{{ completedOrders }}</text>
+      <text class="revenue-label">已完成</text>
+    </view>
+  </view>
+
+  <!-- 笼位与在笼宠物 -->
+  <view class="cage-card">
+    <view class="cage-card__head">
+      <text class="cage-card__title">当前笼位</text>
+      <text class="cage-card__num">可用 {{ cageSummary.availableCages }} / {{ cageSummary.totalCages }}</text>
+    </view>
+    <text class="cage-card__desc" wx:if="{{ cageSummary.cageDesc }}">{{ cageSummary.cageDesc }}</text>
+    <view class="pet-filter-row" wx:if="{{ occupiedPetsAll.length > 0 }}">
+      <view class="pet-filter-chip {{ petFilter === 'all' ? 'pet-filter-chip--active' : '' }}" data-filter="all" bindtap="onChangePetFilter">
+        全部 {{ occupiedPetsAll.length }}
+      </view>
+      <view class="pet-filter-chip {{ petFilter === 'staying' ? 'pet-filter-chip--active' : '' }}" data-filter="staying" bindtap="onChangePetFilter">
+        在笼 {{ occupiedPetsAll.length - leftPetCount }}
+      </view>
+      <view class="pet-filter-chip {{ petFilter === 'left' ? 'pet-filter-chip--active left' : '' }}" data-filter="left" bindtap="onChangePetFilter">
+        已离开 {{ leftPetCount }}
+      </view>
+    </view>
+    <view class="occupied-list" wx:if="{{ occupiedPets.length > 0 }}">
+      <view class="occupied-item" wx:for="{{ occupiedPets }}" wx:key="id">
+        <image class="occupied-item__img" src="{{ item.image }}" mode="aspectFill" />
+        <view class="occupied-item__info">
+          <text class="occupied-item__name">{{ item.petName }}</text>
+          <text class="occupied-item__meta" wx:if="{{ item.species || item.age }}">{{ item.species }}{{ item.age ? ' · ' + item.age + '岁' : '' }}</text>
+          <text class="occupied-item__remain {{ item.isLeft ? 'occupied-item__remain--left' : '' }}">{{ item.leaveRemainText }}</text>
+        </view>
+      </view>
+    </view>
+    <view class="occupied-empty" wx:else>当前无在笼宠物</view>
+  </view>
+
+  <van-tabs active="{{ activeTab }}" bind:change="onTabChange" color="#FF9800" line-width="60rpx" swipeable>
+
+    <!-- Tab: 待接单 -->
+    <van-tab title="待接单" info="{{ pendingList.length || '' }}">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !loading && pendingList.length === 0 }}">
+          <van-icon name="orders-o" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无待接订单</text>
+        </view>
+        <view class="order-list" wx:if="{{ pendingList.length > 0 }}">
+          <view class="ao-card" wx:for="{{ pendingList }}" wx:key="_id">
+            <view class="ao-card__header">
+              <text class="ao-card__svc">{{ item.serviceName }}</text>
+              <van-tag type="warning" size="medium">{{ item.category === 'foster' ? '待寄养' : '待接单' }}</van-tag>
+            </view>
+            <view class="ao-card__body">
+              <image class="ao-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+              <view class="ao-card__info">
+                <text class="ao-card__pet">宠物: {{ item.petName || '-' }}</text>
+                <text class="ao-card__contact">联系人: {{ item.phone || '-' }}</text>
+                <text class="ao-card__remark" wx:if="{{ item.remark }}">备注: {{ item.remark }}</text>
+                <text class="ao-card__price">¥{{ item.price }} /{{ item.unit }}</text>
+                <text class="ao-card__remain {{ item.isLeaveExpired ? 'ao-card__remain--left' : '' }}" wx:if="{{ item.leaveRemainText }}">{{ item.leaveRemainText }}</text>
+                <text class="ao-card__time">{{ item.createTimeStr }}</text>
+              </view>
+            </view>
+            <view class="ao-card__actions">
+              <van-button size="small" round plain type="danger" data-id="{{ item._id }}" data-status="cancelled" bindtap="onUpdateStatus" custom-style="margin-right:16rpx;">拒绝</van-button>
+              <van-button size="small" round type="primary" color="#FF9800" data-id="{{ item._id }}" data-status="confirmed" bindtap="onUpdateStatus">接单</van-button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <!-- Tab: 进行中 -->
+    <van-tab title="进行中" info="{{ activeList.length || '' }}">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !loading && activeList.length === 0 }}">
+          <van-icon name="clock-o" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无进行中订单</text>
+        </view>
+        <view class="order-list" wx:if="{{ activeList.length > 0 }}">
+          <view class="ao-card" wx:for="{{ activeList }}" wx:key="_id">
+            <view class="ao-card__header">
+              <text class="ao-card__svc">{{ item.serviceName }}</text>
+              <van-tag wx:if="{{ item.orderStatus === 'confirmed' }}" type="primary" size="medium">{{ item.category === 'foster' ? '寄养中' : '已接单' }}</van-tag>
+              <van-tag wx:if="{{ item.orderStatus === 'in_progress' }}" color="#E8F5E9" text-color="#2E7D32" size="medium">{{ item.category === 'foster' ? '寄养中' : '服务中' }}</van-tag>
+            </view>
+            <view class="ao-card__body">
+              <image class="ao-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+              <view class="ao-card__info">
+                <text class="ao-card__pet">宠物: {{ item.petName || '-' }}</text>
+                <text class="ao-card__contact">联系人: {{ item.phone || '-' }}</text>
+                <text class="ao-card__price">¥{{ item.price }} /{{ item.unit }}</text>
+                <text class="ao-card__remain {{ item.isLeaveExpired ? 'ao-card__remain--left' : '' }}" wx:if="{{ item.leaveRemainText }}">{{ item.leaveRemainText }}</text>
+                <text class="ao-card__time">{{ item.createTimeStr }}</text>
+              </view>
+            </view>
+            <view class="ao-card__actions">
+              <van-button wx:if="{{ item.orderStatus === 'confirmed' }}" size="small" round type="primary" color="#FF9800" data-id="{{ item._id }}" data-status="in_progress" bindtap="onUpdateStatus">开始服务</van-button>
+              <van-button wx:if="{{ item.orderStatus === 'in_progress' }}" size="small" round type="primary" color="#07c160" data-id="{{ item._id }}" data-status="to_confirm" bindtap="onUpdateStatus">完成服务</van-button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <!-- Tab: 待确认 -->
+    <van-tab title="待确认" info="{{ toConfirmList.length || '' }}">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !loading && toConfirmList.length === 0 }}">
+          <van-icon name="todo-list-o" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无待确认订单</text>
+        </view>
+        <view class="order-list" wx:if="{{ toConfirmList.length > 0 }}">
+          <view class="ao-card" wx:for="{{ toConfirmList }}" wx:key="_id">
+            <view class="ao-card__header">
+              <text class="ao-card__svc">{{ item.serviceName }}</text>
+              <van-tag color="#FFF3E0" text-color="#E65100" size="medium">{{ item.category === 'foster' ? '待取回' : '待用户确认' }}</van-tag>
+            </view>
+            <view class="ao-card__body">
+              <image class="ao-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+              <view class="ao-card__info">
+                <text class="ao-card__pet">宠物: {{ item.petName || '-' }}</text>
+                <text class="ao-card__price">¥{{ item.price }} /{{ item.unit }}</text>
+                <text class="ao-card__remain {{ item.isLeaveExpired ? 'ao-card__remain--left' : '' }}" wx:if="{{ item.leaveRemainText }}">{{ item.leaveRemainText }}</text>
+                <text class="ao-card__time">{{ item.createTimeStr }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <!-- Tab: 已完成 -->
+    <van-tab title="已完成">
+      <view class="tab-body">
+        <view class="empty-box" wx:if="{{ !loading && completedList.length === 0 }}">
+          <van-icon name="checked" size="80rpx" color="#ddd"></van-icon>
+          <text class="empty-text">暂无已完成订单</text>
+        </view>
+        <view class="order-list" wx:if="{{ completedList.length > 0 }}">
+          <view class="ao-card" wx:for="{{ completedList }}" wx:key="_id">
+            <view class="ao-card__header">
+              <text class="ao-card__svc">{{ item.serviceName }}</text>
+              <van-tag type="success" size="medium">{{ item.category === 'foster' ? '已取回' : '已完成' }}</van-tag>
+            </view>
+            <view class="ao-card__body">
+              <image class="ao-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+              <view class="ao-card__info">
+                <text class="ao-card__pet">宠物: {{ item.petName || '-' }}</text>
+                <text class="ao-card__price">¥{{ item.price }} /{{ item.unit }}</text>
+                <text class="ao-card__remain {{ item.isLeaveExpired ? 'ao-card__remain--left' : '' }}" wx:if="{{ item.leaveRemainText }}">{{ item.leaveRemainText }}</text>
+                <text class="ao-card__time">{{ item.createTimeStr }}</text>
+              </view>
+            </view>
+            <!-- 用户评价展示 -->
+            <view class="ao-card__review" wx:if="{{ item.review }}">
+              <view class="review-header">
+                <van-icon name="comment-o" size="28rpx" color="#FF9800"></van-icon>
+                <text class="review-title">用户评价</text>
+                <view class="review-stars">
+                  <van-icon wx:for="{{ item.review.rating }}" wx:for-index="starIdx" wx:key="starIdx" name="star" size="24rpx" color="#FF9800"></van-icon>
+                </view>
+              </view>
+              <text class="review-content">{{ item.review.content }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+  </van-tabs>
+</view>

@@ -1,0 +1,124 @@
+<!-- pages/agency-reviews/agency-reviews.wxml -->
+<view class="reviews-page">
+
+  <!-- 顶部评分概览 -->
+  <view class="score-header">
+    <view class="score-main">
+      <text class="score-main__num">{{ avgRating }}</text>
+      <van-rate value="{{ avgRatingRound }}" size="36rpx" color="#fff" void-color="rgba(255,255,255,0.35)" readonly allow-half />
+    </view>
+    <view class="score-row">
+      <view class="score-item">
+        <text class="score-item__num">{{ totalReviews }}</text>
+        <text class="score-item__label">总评价数</text>
+      </view>
+      <view class="score-divider"></view>
+      <view class="score-item">
+        <text class="score-item__num">{{ good }}%</text>
+        <text class="score-item__label">好评率</text>
+      </view>
+      <view class="score-divider"></view>
+      <view class="score-item">
+        <text class="score-item__num">{{ reviewedOrders }}/{{ totalOrders }}</text>
+        <text class="score-item__label">评价/订单</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评分分布 -->
+  <view class="dist-card">
+    <view class="dist-title">评分分布</view>
+    <view class="dist-row" wx:for="{{ ratingDist }}" wx:key="star">
+      <text class="dist-star">{{ item.star }}星</text>
+      <view class="dist-track">
+        <view class="dist-fill" style="width: {{ item.percent }}%;"></view>
+      </view>
+      <text class="dist-count">{{ item.count }}</text>
+    </view>
+  </view>
+
+  <!-- 筛选区 -->
+  <view class="filter-card">
+    <view class="filter-top">
+      <text class="filter-top__title">筛选与排序</text>
+      <view class="filter-reset" bindtap="onResetFilters">重置</view>
+    </view>
+    <view class="filter-group">
+      <text class="filter-title">评价筛选</text>
+      <scroll-view class="filter-scroll" scroll-x>
+        <view class="chip-row">
+          <view
+            class="chip {{ selectedRating === item.value ? 'chip--active' : '' }}"
+            wx:for="{{ ratingOptions }}"
+            wx:key="value"
+            data-value="{{ item.value }}"
+            bindtap="onSelectRating"
+          >
+            {{ item.label }}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="filter-group">
+      <text class="filter-title">排序方式</text>
+      <view class="chip-row">
+        <view
+          class="chip {{ selectedSort === item.value ? 'chip--active' : '' }}"
+          wx:for="{{ sortOptions }}"
+          wx:key="value"
+          data-value="{{ item.value }}"
+          bindtap="onSelectSort"
+        >
+          {{ item.label }}
+        </view>
+      </view>
+    </view>
+    <view class="filter-group">
+      <text class="filter-title">服务筛选</text>
+      <scroll-view class="filter-scroll" scroll-x>
+        <view class="chip-row">
+          <view
+            class="chip {{ selectedService === item.value ? 'chip--active' : '' }}"
+            wx:for="{{ serviceOptions }}"
+            wx:key="value"
+            data-value="{{ item.value }}"
+            bindtap="onSelectService"
+          >
+            {{ item.label }}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 评价列表 -->
+  <view class="review-list-section">
+    <view class="review-list-title">评价列表 ({{ totalReviews }})</view>
+
+    <view class="empty-box" wx:if="{{ !loading && reviews.length === 0 }}">
+      <van-icon name="comment-o" size="80rpx" color="#ddd"></van-icon>
+      <text class="empty-text">暂无用户评价</text>
+    </view>
+
+    <view class="review-card" wx:for="{{ reviews }}" wx:key="_id">
+      <view class="review-card__header">
+        <view class="review-card__svc">
+          <van-tag type="primary" color="#FFF3E0" text-color="#E65100" size="medium">{{ item.catLabel }}</van-tag>
+          <text class="review-card__name">{{ item.serviceName }}</text>
+        </view>
+        <view class="review-card__stars">
+          <van-rate value="{{ item.review.rating }}" size="28rpx" color="#FF9800" void-color="#ddd" readonly />
+        </view>
+      </view>
+      <view class="review-card__body">
+        <text class="review-card__content">{{ item.review.content }}</text>
+      </view>
+      <view class="review-card__footer">
+        <text class="review-card__pet">宠物: {{ item.petName || '-' }}</text>
+        <text class="review-card__price" wx:if="{{ item.price }}">¥{{ item.price }}</text>
+        <text class="review-card__time">{{ item.reviewTimeStr }}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

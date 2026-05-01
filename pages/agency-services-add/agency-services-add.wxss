@@ -1,0 +1,147 @@
+/* pages/agency-services-add/agency-services-add.wxss */
+.add-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+.section {
+  margin: 24rpx 24rpx 0;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 分类选择网格 */
+.cat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.cat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(33.33% - 12rpx);
+  height: 140rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  border: 3rpx solid transparent;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+  transition: all 0.2s;
+}
+
+.cat-item.cat-active {
+  border-color: #FF9800;
+  background: #FFF8E1;
+}
+
+.cat-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 10rpx;
+}
+
+.cat-active .cat-label {
+  color: #FF9800;
+  font-weight: 600;
+}
+
+/* 模板列表 */
+.tpl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.tpl-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  border: 3rpx solid transparent;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+
+.tpl-item.tpl-active {
+  border-color: #FF9800;
+  background: #FFF8E1;
+}
+
+.tpl-name {
+  font-size: 28rpx;
+  color: #333;
+  flex: 1;
+}
+
+.tpl-active .tpl-name {
+  color: #E65100;
+  font-weight: 600;
+}
+
+.tpl-unit {
+  font-size: 22rpx;
+  color: #999;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+
+/* 价格提示 */
+.price-hint {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  margin-top: 12rpx;
+}
+
+.price-hint-text {
+  font-size: 24rpx;
+  color: #F57C00;
+  margin-left: 8rpx;
+}
+
+/* 价格后缀插槽 */
+.price-suffix-slot {
+  display: flex;
+  align-items: center;
+}
+
+.price-yuan {
+  font-size: 26rpx;
+  color: #999;
+  margin-right: 12rpx;
+}
+
+.unit-picker {
+  font-size: 26rpx;
+  color: #FF9800;
+  padding: 4rpx 16rpx;
+  border: 2rpx solid #FFE0B2;
+  border-radius: 8rpx;
+  background: #FFF8E1;
+}
+
+/* 图片上传区 */
+.upload-section {
+  margin-top: 24rpx;
+  padding: 0 24rpx;
+}
+
+.upload-title {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+/* 提交区域 */
+.submit-area {
+  padding: 40rpx 48rpx 80rpx;
+}

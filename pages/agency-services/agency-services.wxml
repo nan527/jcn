@@ -1,0 +1,49 @@
+<!-- pages/agency-services/agency-services.wxml -->
+<view class="services-page">
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{ !loading && services.length === 0 }}">
+    <image class="empty-img" src="/static/pet/mescroll-empty.png" mode="aspectFit" />
+    <text class="empty-text">暂无服务项目，快去添加吧</text>
+  </view>
+
+  <!-- 服务列表（按分类分组） -->
+  <block wx:for="{{ groupedServices }}" wx:key="key">
+    <view class="group-section" wx:if="{{ item.list.length > 0 }}">
+      <view class="group-header">
+        <van-icon name="{{ item.icon }}" size="32rpx" color="#FF9800"></van-icon>
+        <text class="group-title">{{ item.title }}</text>
+        <text class="group-count">{{ item.list.length }}项</text>
+      </view>
+      <view class="svc-card" wx:for="{{ item.list }}" wx:for-item="svc" wx:key="_id">
+        <view class="svc-card-top">
+          <text class="svc-card-name">{{ svc.name }}</text>
+          <view class="svc-card-price">
+            <text class="price-symbol">¥</text>
+            <text class="price-value">{{ svc.price }}</text>
+            <text class="price-unit">{{ svc.unit }}</text>
+          </view>
+        </view>
+        <view class="svc-card-desc" wx:if="{{ svc.desc }}">{{ svc.desc }}</view>
+        <view class="svc-card-images" wx:if="{{ svc.images && svc.images.length > 0 }}">
+          <image class="svc-thumb" wx:for="{{ svc.images }}" wx:for-item="img" wx:key="*this" src="{{ img }}" mode="aspectFill" />
+        </view>
+        <view class="svc-card-bottom">
+          <van-tag type="primary" color="#FFF3E0" text-color="#E65100">{{ item.title }}</van-tag>
+          <view class="svc-card-actions">
+            <van-icon name="edit" size="36rpx" color="#999" catch:tap="onEditService" data-id="{{ svc._id }}"></van-icon>
+            <van-icon name="delete-o" size="36rpx" color="#ee0a24" catch:tap="onDeleteService" data-id="{{ svc._id }}" style="margin-left: 24rpx;"></van-icon>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 底部添加按钮 -->
+  <view class="fab-area">
+    <van-button type="primary" round icon="plus" color="linear-gradient(135deg, #FF9800, #FFB74D)" bindtap="toAddService">
+      添加服务
+    </van-button>
+  </view>
+
+</view>

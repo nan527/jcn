@@ -1,0 +1,59 @@
+<!-- pages/agency-edit/agency-edit.wxml -->
+<view class="edit-page">
+
+  <van-cell-group inset title="基础信息">
+    <van-field label="机构名称" required placeholder="请输入机构名称" value="{{ form.orgName }}" bind:change="onInput" data-field="orgName"></van-field>
+    <van-field label="统一信用代码" required placeholder="18位统一社会信用代码" value="{{ form.creditCode }}" bind:change="onInput" data-field="creditCode"></van-field>
+    <van-field label="法人姓名" required placeholder="请输入法人姓名" value="{{ form.legalName }}" bind:change="onInput" data-field="legalName"></van-field>
+    <van-field label="法人联系电话" required type="number" placeholder="请输入法人电话" value="{{ form.legalPhone }}" bind:change="onInput" data-field="legalPhone"></van-field>
+    <van-field label="经营区域" required placeholder="省市区" value="{{ form.region }}" bind:change="onInput" data-field="region"></van-field>
+    <van-field label="详细地址" required placeholder="详细门牌号" value="{{ form.detailAddress }}" bind:change="onInput" data-field="detailAddress"></van-field>
+  </van-cell-group>
+
+  <van-cell-group inset title="资质信息" style="margin-top: 24rpx;">
+    <view class="upload-item">
+      <text class="upload-label required">营业执照</text>
+      <van-uploader file-list="{{ licenseFileList }}" max-count="1" bind:after-read="afterReadLicense" bind:delete="onDeleteLicense"></van-uploader>
+    </view>
+    <view class="upload-item">
+      <text class="upload-label">经营许可证（可选）</text>
+      <van-uploader file-list="{{ permitFileList }}" max-count="1" bind:after-read="afterReadPermit" bind:delete="onDeletePermit"></van-uploader>
+    </view>
+    <view class="upload-item">
+      <text class="upload-label required">门头实景照片</text>
+      <van-uploader file-list="{{ storefrontFileList }}" max-count="1" bind:after-read="afterReadStorefront" bind:delete="onDeleteStorefront"></van-uploader>
+    </view>
+  </van-cell-group>
+
+  <van-cell-group inset title="业务属性" style="margin-top: 24rpx;">
+    <picker mode="selector" range="{{ businessTypeOptions }}" value="{{ businessTypeIndex }}" bindchange="onBusinessTypeChange">
+      <van-cell title="经营类型" value="{{ form.businessType || '请选择' }}" is-link></van-cell>
+    </picker>
+    <van-field label="笼位总数" required type="number" placeholder="请输入机构可用笼位总数" value="{{ form.totalCages }}" bind:change="onInput" data-field="totalCages"></van-field>
+    <van-field label="笼位说明" placeholder="如：犬笼20个，猫笼12个，含隔离笼2个" value="{{ form.cageDesc }}" bind:change="onInput" data-field="cageDesc"></van-field>
+    <van-field label="可服务范围" placeholder="可寄养猫狗、24小时看护" value="{{ form.serviceScope }}" bind:change="onInput" data-field="serviceScope"></van-field>
+    <van-field label="营业时间" placeholder="09:00-21:00" value="{{ form.businessHours }}" bind:change="onInput" data-field="businessHours"></van-field>
+    <van-field label="预约方式" placeholder="电话/微信/小程序" value="{{ form.appointmentMethod }}" bind:change="onInput" data-field="appointmentMethod"></van-field>
+  </van-cell-group>
+
+  <van-cell-group inset title="环境展示" style="margin-top: 24rpx;">
+    <view class="upload-item">
+      <text class="upload-label">机构环境照片（最多6张）</text>
+      <van-uploader file-list="{{ envFileList }}" max-count="6" bind:after-read="afterReadEnv" bind:delete="onDeleteEnv" image-fit="aspectFill"></van-uploader>
+    </view>
+  </van-cell-group>
+
+  <van-cell-group inset title="补充信息" style="margin-top: 24rpx;">
+    <van-field label="紧急联系人" placeholder="请输入紧急联系人" value="{{ form.emergencyContact }}" bind:change="onInput" data-field="emergencyContact"></van-field>
+    <van-field label="备用电话" type="number" placeholder="请输入备用电话" value="{{ form.backupPhone }}" bind:change="onInput" data-field="backupPhone"></van-field>
+    <van-field label="机构简介" type="textarea" autosize="{{ { minHeight: 80 } }}" placeholder="机构介绍、服务优势" value="{{ form.orgIntro }}" bind:change="onInput" data-field="orgIntro"></van-field>
+    <van-field label="招牌项目" type="textarea" autosize="{{ { minHeight: 80 } }}" placeholder="24h托管、术后护理等" value="{{ form.signatureService }}" bind:change="onInput" data-field="signatureService"></van-field>
+  </van-cell-group>
+
+  <view class="submit-area">
+    <van-button type="primary" block round loading="{{ saving }}" loading-text="保存中..." color="linear-gradient(135deg, #FF9800, #FFB74D)" bindtap="save">
+      保存修改
+    </van-button>
+  </view>
+
+</view>

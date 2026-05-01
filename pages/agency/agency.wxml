@@ -1,0 +1,107 @@
+<!-- pages/agency/agency.wxml -->
+<view class="agency-page">
+
+  <!-- 顶部机构卡片 -->
+  <view class="agency-header">
+    <image class="agency-header__bg" src="/static/user-bg.png" mode="aspectFill" />
+    <view class="agency-header__content">
+      <view class="avatar-wrap">
+        <image class="agency-avatar" src="{{ agencyInfo.avatar || '/static/pet/logo.png' }}" mode="aspectFill" />
+      </view>
+      <view class="agency-meta">
+        <text class="agency-name">{{ agencyInfo.nickname || '机构名称' }}</text>
+        <view class="agency-status-badge {{ agencyInfo.auditStatus === 'approved' ? 'badge-ok' : 'badge-pending' }}">
+          <image class="badge-icon" src="/static/tab-my-orange.png" mode="aspectFit" />
+          <text class="badge-text">{{ agencyInfo.auditStatus === 'approved' ? '已认证机构' : '待审核' }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据统计条 -->
+  <view class="stats-bar">
+    <view class="stats-item">
+      <text class="stats-num">{{ orderCount }}</text>
+      <text class="stats-label">订单数</text>
+    </view>
+    <view class="stats-divider"></view>
+    <view class="stats-item">
+      <text class="stats-num">{{ petCount }}</text>
+      <text class="stats-label">在养宠物</text>
+    </view>
+    <view class="stats-divider"></view>
+    <view class="stats-item">
+      <text class="stats-num">{{ serviceCount }}</text>
+      <text class="stats-label">服务项目</text>
+    </view>
+  </view>
+
+  <!-- 运营管理 -->
+  <view class="section-title">运营管理</view>
+  <view class="ops-card">
+    <view class="ops-grid">
+      <view class="ops-item" bindtap="toOpsOrders">
+        <view class="ops-icon-wrap ops-bg-orange">
+          <van-icon name="orders-o" size="40rpx" color="#E65100"></van-icon>
+        </view>
+        <text class="ops-label">订单状态</text>
+        <text class="ops-desc">查看管理</text>
+      </view>
+      <view class="ops-item" bindtap="toEditInfo">
+        <view class="ops-icon-wrap ops-bg-blue">
+          <van-icon name="certificate" size="40rpx" color="#1565C0"></van-icon>
+        </view>
+        <text class="ops-label">运营资质</text>
+        <text class="ops-desc">资质与资料</text>
+      </view>
+      <view class="ops-item" bindtap="toOpsReview">
+        <view class="ops-icon-wrap ops-bg-green">
+          <van-icon name="comment-o" size="40rpx" color="#2E7D32"></van-icon>
+        </view>
+        <text class="ops-label">用户口碑</text>
+        <text class="ops-desc">评价管理</text>
+      </view>
+      <view class="ops-item" bindtap="toOpsRevenue">
+        <view class="ops-icon-wrap ops-bg-red">
+          <van-icon name="balance-o" size="40rpx" color="#C62828"></van-icon>
+        </view>
+        <text class="ops-label">运营营收</text>
+        <text class="ops-desc">收入统计</text>
+      </view>
+      <view class="ops-item" bindtap="toOpsExposure">
+        <view class="ops-icon-wrap ops-bg-purple">
+          <van-icon name="bulb-o" size="40rpx" color="#6A1B9A"></van-icon>
+        </view>
+        <text class="ops-label">曝光引流</text>
+        <text class="ops-desc">推广获客</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="section-title">快捷功能</view>
+  <view class="service-grid">
+    <view class="service-item" bindtap="toOrders">
+      <image class="service-icon" src="/static/tab-cart-orange.png" mode="aspectFit" />
+      <text class="service-label">订单</text>
+    </view>
+    <view class="service-item" bindtap="toPetManage">
+      <image class="service-icon" src="/static/tab-pet-green.png" mode="aspectFit" />
+      <text class="service-label">宠物管理</text>
+    </view>
+    <view class="service-item" bindtap="toServiceManage">
+      <image class="service-icon" src="/static/tab-ask-orange.png" mode="aspectFit" />
+      <text class="service-label">服务项目</text>
+    </view>
+    <view class="service-item" bindtap="toContact">
+      <image class="service-icon" src="/static/pet/contact.png" mode="aspectFit" />
+      <text class="service-label">客服中心</text>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-area">
+    <van-button block round plain type="danger" size="normal" bindtap="handleLogout">退出登录</van-button>
+  </view>
+
+</view>

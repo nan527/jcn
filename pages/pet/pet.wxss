@@ -1,0 +1,224 @@
+/* pages/pet/pet.wxss */
+.container {
+  min-height: 100vh;
+  padding: 24rpx 24rpx 40rpx;
+  box-sizing: border-box;
+  background: #f7f8fa;
+}
+
+/* ===== 空状态 ===== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 0 60rpx;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  opacity: 0.4;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #999;
+  margin-top: 24rpx;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: #ccc;
+  margin-top: 12rpx;
+}
+
+/* ===== 宠物卡片 ===== */
+.pet-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.pet-card__avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #FFF3E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+  overflow: hidden;
+}
+
+.pet-card__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pet-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 8rpx;
+}
+
+.pet-card__name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.pet-card__detail {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 6rpx;
+}
+
+.pet-card__char {
+  font-size: 24rpx;
+  color: #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pet-card__action {
+  flex-shrink: 0;
+  padding-left: 16rpx;
+  display: flex;
+  align-items: center;
+}
+
+/* ===== 添加按钮 ===== */
+.add-btn-area {
+  margin: 32rpx 0;
+  padding: 0 20rpx;
+}
+
+/* ===== 表单区域 ===== */
+.form-section {
+  margin-top: 16rpx;
+}
+
+.upload-section {
+  padding: 24rpx 32rpx;
+  background: #fff;
+  margin: 16rpx 0 24rpx;
+  border-radius: 12rpx;
+}
+
+.upload-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.upload-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 24rpx;
+}
+
+/* 预设头像按钮 */
+.preset-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 16rpx;
+  border: 2rpx dashed #FF9800;
+  background: #FFFBF5;
+  gap: 8rpx;
+}
+
+.preset-btn__text {
+  font-size: 22rpx;
+  color: #FF9800;
+  font-weight: 500;
+}
+
+/* 预设头像弹层 */
+.avatar-picker {
+  padding: 32rpx 24rpx 48rpx;
+}
+
+.avatar-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32rpx;
+  padding: 0 8rpx;
+}
+
+.avatar-picker__title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.avatar-picker__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  justify-content: flex-start;
+}
+
+.avatar-picker__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(20% - 10rpx);
+  padding: 12rpx 0 8rpx;
+  border-radius: 16rpx;
+  background: #f7f8fa;
+  transition: all 0.2s ease;
+}
+
+.avatar-picker__item:active {
+  transform: scale(0.95);
+}
+
+.avatar-picker__item--active {
+  background: #FFF3E0;
+  border: 2rpx solid #FF9800;
+  box-shadow: 0 4rpx 12rpx rgba(255, 152, 0, 0.15);
+}
+
+.avatar-picker__img {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #fff;
+  margin-bottom: 6rpx;
+}
+
+.avatar-picker__item--active .avatar-picker__img {
+  box-shadow: 0 0 0 3rpx #FF9800;
+}
+
+.avatar-picker__name {
+  font-size: 18rpx;
+  color: #666;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 110rpx;
+}
+
+.avatar-picker__item--active .avatar-picker__name {
+  color: #E65100;
+  font-weight: 600;
+}

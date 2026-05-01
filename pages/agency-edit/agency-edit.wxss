@@ -1,0 +1,27 @@
+/* pages/agency-edit/agency-edit.wxss */
+.edit-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+.upload-item {
+  padding: 20rpx 32rpx;
+}
+
+.upload-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.upload-label.required::before {
+  content: '*';
+  color: #ee0a24;
+  margin-right: 4rpx;
+}
+
+.submit-area {
+  padding: 40rpx 48rpx 80rpx;
+}

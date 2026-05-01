@@ -1,0 +1,62 @@
+<!-- pages/publish/publish.wxml -->
+<view class="publish-page">
+
+  <!-- 页面标题 -->
+  <view class="page-title">
+    <text class="page-title__text">发布您感兴趣的内容</text>
+  </view>
+
+  <!-- 发布选项卡片 -->
+  <view class="pub-card" bindtap="toCreatePost">
+    <view class="pub-card__icon pub-card__icon--post">
+      <image src="/static/tab-forum-orange.png" mode="aspectFit" class="pub-card__icon-img"></image>
+    </view>
+    <view class="pub-card__info">
+      <text class="pub-card__title">发布帖子</text>
+      <text class="pub-card__desc">分享你和宠物的日常故事</text>
+    </view>
+    <van-button round size="small" color="#FF9800" custom-style="min-width: 140rpx;" bindtap="toCreatePost">去发布</van-button>
+  </view>
+
+  <view class="pub-card" bindtap="toAdopt">
+    <view class="pub-card__icon pub-card__icon--find">
+      <image src="/static/tab-ask-orange.png" mode="aspectFit" class="pub-card__icon-img"></image>
+    </view>
+    <view class="pub-card__info">
+      <text class="pub-card__title">发布送养</text>
+      <text class="pub-card__desc">为宠物找一个温暖的新家</text>
+    </view>
+    <van-button round size="small" color="#FF9800" custom-style="min-width: 140rpx;" bindtap="toAdopt">去发布</van-button>
+  </view>
+
+  <view class="pub-card" bindtap="toFoster">
+    <view class="pub-card__icon pub-card__icon--foster">
+      <image src="/static/tab-cart-orange.png" mode="aspectFit" class="pub-card__icon-img"></image>
+    </view>
+    <view class="pub-card__info">
+      <text class="pub-card__title">发布寄养</text>
+      <text class="pub-card__desc">请填写真实宠物信息和个人信息</text>
+    </view>
+    <van-button round size="small" color="#FF9800" custom-style="min-width: 140rpx;" bindtap="toFoster">去发布</van-button>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-section">
+    <view class="quick-title">快捷入口</view>
+    <view class="quick-grid">
+      <view class="quick-item" bindtap="toForum">
+        <image src="/static/tab-forum-orange.png" mode="aspectFit" class="quick-icon"></image>
+        <text class="quick-label">宠物社区</text>
+      </view>
+      <view class="quick-item" bindtap="toPetArchive">
+        <image src="/static/tab-pet-orange.png" mode="aspectFit" class="quick-icon"></image>
+        <text class="quick-label">宠物档案</text>
+      </view>
+      <view class="quick-item" bindtap="toMyPosts">
+        <image src="/static/tab-cate-orange.png" mode="aspectFit" class="quick-icon"></image>
+        <text class="quick-label">我的帖子</text>
+      </view>
+    </view>
+  </view>
+
+</view>

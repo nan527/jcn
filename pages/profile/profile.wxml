@@ -1,0 +1,74 @@
+<!-- pages/profile/profile.wxml -->
+<view class="profile-page">
+
+  <!-- 当前头像 -->
+  <view class="avatar-section">
+    <image class="current-avatar" src="{{ avatar }}" mode="aspectFill"></image>
+    <text class="avatar-hint">点击下方头像更换</text>
+  </view>
+
+  <!-- 预设头像选择 -->
+  <view class="avatar-picker">
+    <view
+      wx:for="{{ avatarList }}"
+      wx:key="*this"
+      class="avatar-option {{ avatar === item ? 'avatar-option--active' : '' }}"
+      data-src="{{ item }}"
+      bindtap="onSelectAvatar"
+    >
+      <image class="avatar-option__img" src="{{ item }}" mode="aspectFill"></image>
+    </view>
+    <!-- 自定义上传 -->
+    <view class="avatar-option avatar-option--upload" bindtap="onChooseCustomAvatar">
+      <van-icon name="photograph" size="40rpx" color="#999"></van-icon>
+    </view>
+  </view>
+
+  <!-- 个人信息表单 -->
+  <van-cell-group title="基本信息" inset>
+    <van-field
+      label="昵称"
+      placeholder="请输入昵称"
+      value="{{ nickname }}"
+      bind:change="onNicknameChange"
+      required
+    ></van-field>
+    <van-field
+      label="邮箱"
+      placeholder="请输入邮箱地址"
+      value="{{ email }}"
+      bind:change="onEmailChange"
+      type="text"
+    ></van-field>
+    <van-field
+      label="手机号"
+      placeholder="请输入手机号码"
+      value="{{ phone }}"
+      bind:change="onPhoneChange"
+      type="digit"
+      maxlength="{{ 11 }}"
+    ></van-field>
+    <van-field
+      label="个性签名"
+      placeholder="介绍一下自己吧"
+      value="{{ bio }}"
+      bind:change="onBioChange"
+      type="textarea"
+      autosize
+    ></van-field>
+  </van-cell-group>
+
+  <!-- 保存按钮 -->
+  <view class="save-area">
+    <van-button
+      type="primary"
+      block
+      round
+      loading="{{ saving }}"
+      loading-text="保存中…"
+      color="linear-gradient(135deg, #FF9800, #FFB74D)"
+      bindtap="saveProfile"
+    >保存修改</van-button>
+  </view>
+
+</view>

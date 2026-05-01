@@ -1,0 +1,17 @@
+<!-- pages/admin/admin.wxml -->
+<view class="container">
+  <view class="header">
+    <text class="title">系统管理员</text>
+  </view>
+  
+  <van-grid direction="horizontal" column-num="1" clickable>
+    <van-grid-item icon="friends-o" text="用户管理" />
+    <van-grid-item icon="shop-o" text="机构审核" bindtap="toAgencyAudit" />
+    <van-grid-item icon="orders-o" text="全局订单记录" />
+    <van-grid-item icon="setting-o" text="系统参数设置" />
+  </van-grid>
+
+  <view style="margin: 30px 16px;">
+    <van-button block round type="info" plain bindtap="toHome">返回宠主端</van-button>
+  </view>
+</view>

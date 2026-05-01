@@ -1,0 +1,77 @@
+<!-- pages/index/index.wxml -->
+<view class="index-page">
+
+  <!-- 顶部搜索栏 -->
+  <van-search value="{{ searchVal }}" placeholder="搜索宠物服务、机构" shape="round" bind:change="onSearchChange" />
+
+  <!-- 核心功能入口 -->
+  <van-grid column-num="3" border="{{ false }}" gutter="{{ 10 }}" custom-class="func-grid">
+    <van-grid-item icon="search" text="智能匹配" bindtap="toMatch" />
+    <van-grid-item icon="chart-trending-o" text="健康管理" bindtap="toHealth" />
+    <van-grid-item icon="brush-o" text="AI 创作" bindtap="toAI" />
+  </van-grid>
+
+  <!-- ===== 个人寄养/送养 ===== -->
+  <view class="section-bar">
+    <text class="section-bar__title">寄养送养</text>
+    <view class="section-bar__more" bindtap="toFosterList">
+      <text>查看更多</text>
+      <van-icon name="arrow" size="24rpx" color="#999"></van-icon>
+    </view>
+  </view>
+
+  <view class="pet-empty" wx:if="{{ !fosterLoading && fosterList.length === 0 }}">
+    <text class="pet-empty-text">暂无寄养送养信息</text>
+  </view>
+
+  <view class="card-grid" wx:if="{{ fosterList.length > 0 }}">
+    <view class="pet-card" wx:for="{{ fosterList }}" wx:key="_id" bindtap="onFosterTap" data-id="{{ item._id }}" data-type="{{ item.type }}">
+      <image class="pet-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+      <view class="pet-card__body">
+        <text class="pet-card__name">{{ item.petName }}</text>
+        <view class="pet-card__tags">
+          <van-tag wx:if="{{ item.type === 'foster' }}" type="warning" plain size="medium">寄养</van-tag>
+          <van-tag wx:if="{{ item.type === 'adopt' }}" type="success" plain size="medium">送养</van-tag>
+          <van-tag wx:if="{{ item.breed }}" plain size="medium">{{ item.breed }}</van-tag>
+        </view>
+        <view class="pet-card__loc" wx:if="{{ item.location }}">
+          <van-icon name="location-o" size="22rpx" color="#bbb"></van-icon>
+          <text class="pet-card__loc-text">{{ item.location }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 机构服务 ===== -->
+  <view class="section-bar">
+    <text class="section-bar__title">机构服务</text>
+    <view class="section-bar__more" bindtap="toAgencyServiceList">
+      <text>查看更多</text>
+      <van-icon name="arrow" size="24rpx" color="#999"></van-icon>
+    </view>
+  </view>
+
+  <view class="pet-empty" wx:if="{{ !svcLoading && svcList.length === 0 }}">
+    <text class="pet-empty-text">暂无机构服务</text>
+  </view>
+
+  <view class="card-grid" wx:if="{{ svcList.length > 0 }}">
+    <view class="svc-card" wx:for="{{ svcList }}" wx:key="_id" bindtap="onSvcTap" data-id="{{ item._id }}">
+      <image class="svc-card__img" src="{{ item.images[0] || '/static/pet/logo.png' }}" mode="aspectFill" />
+      <view class="svc-card__body">
+        <text class="svc-card__name">{{ item.name }}</text>
+        <view class="svc-card__price-row">
+          <text class="svc-card__price">¥{{ item.price }}</text>
+          <text class="svc-card__unit">{{ item.unit }}</text>
+        </view>
+        <view class="svc-card__cat">
+          <van-tag type="primary" color="#FFF3E0" text-color="#E65100" size="medium">{{ item.catTitle || '服务' }}</van-tag>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部安全区 -->
+  <view style="height: 40rpx;"></view>
+
+</view>

@@ -1,0 +1,94 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/pet/pet",
+    "pages/match/match",
+    "pages/health/health",
+    "pages/ai/ai",
+    "pages/agency/agency",
+    "pages/admin/admin",
+    "pages/admin/audit",
+    "pages/my/my",
+    "pages/profile/profile",
+    "pages/forum/forum",
+    "pages/post/post",
+    "pages/post-detail/post-detail",
+    "pages/publish/publish",
+    "pages/adopt/adopt",
+    "pages/foster/foster",
+    "pages/agency-register/agency-register",
+    "pages/agency-edit/agency-edit",
+    "pages/agency-services/agency-services",
+    "pages/agency-services-add/agency-services-add",
+    "pages/foster-center/foster-center",
+    "pages/foster-detail/foster-detail",
+    "pages/service-detail/service-detail",
+    "pages/orders/orders",
+    "pages/agency-orders/agency-orders",
+    "pages/agency-revenue/agency-revenue",
+    "pages/agency-reviews/agency-reviews"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "就宠你-宠物综合服务平台",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#FF9800",
+    "backgroundColor": "#fff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab-home.png",
+        "selectedIconPath": "static/tab-home-orange.png"
+      },
+      {
+        "pagePath": "pages/forum/forum",
+        "text": "社区",
+        "iconPath": "static/tab-forum.png",
+        "selectedIconPath": "static/tab-forum-orange.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "static/tab-ask.png",
+        "selectedIconPath": "static/tab-ask-orange.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tab-my.png",
+        "selectedIconPath": "static/tab-my-orange.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
+    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",
+    "van-field": "/miniprogram_npm/@vant/weapp/field/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-image": "/miniprogram_npm/@vant/weapp/image/index",
+    "van-loading": "/miniprogram_npm/@vant/weapp/loading/index",
+    "van-tabbar": "/miniprogram_npm/@vant/weapp/tabbar/index",
+    "van-tabbar-item": "/miniprogram_npm/@vant/weapp/tabbar-item/index",
+    "van-uploader": "/miniprogram_npm/@vant/weapp/uploader/index",
+    "van-search": "/miniprogram_npm/@vant/weapp/search/index",
+    "van-grid": "/miniprogram_npm/@vant/weapp/grid/index",
+    "van-grid-item": "/miniprogram_npm/@vant/weapp/grid-item/index",
+    "van-card": "/miniprogram_npm/@vant/weapp/card/index",
+    "van-tag": "/miniprogram_npm/@vant/weapp/tag/index",
+    "van-radio": "/miniprogram_npm/@vant/weapp/radio/index",
+    "van-radio-group": "/miniprogram_npm/@vant/weapp/radio-group/index",
+    "van-checkbox": "/miniprogram_npm/@vant/weapp/checkbox/index",
+    "van-checkbox-group": "/miniprogram_npm/@vant/weapp/checkbox-group/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

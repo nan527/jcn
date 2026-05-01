@@ -1,0 +1,117 @@
+<!-- pages/agency-services-add/agency-services-add.wxml -->
+<view class="add-page">
+
+  <!-- 步骤1：选择服务分类 -->
+  <view class="section">
+    <view class="section-title">服务分类</view>
+    <view class="cat-grid">
+      <view
+        class="cat-item {{ selectedCat === item.key ? 'cat-active' : '' }}"
+        wx:for="{{ categories }}"
+        wx:key="key"
+        bindtap="onSelectCat"
+        data-key="{{ item.key }}"
+      >
+        <van-icon name="{{ item.icon }}" size="40rpx" color="{{ selectedCat === item.key ? '#FF9800' : '#999' }}"></van-icon>
+        <text class="cat-label">{{ item.title }}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤2：选择或自定义服务模板 -->
+  <view class="section" wx:if="{{ selectedCat }}">
+    <view class="section-title">选择服务类型（可直接使用或自定义名称）</view>
+    <view class="tpl-list">
+      <view
+        class="tpl-item {{ selectedTpl === tIdx ? 'tpl-active' : '' }}"
+        wx:for="{{ currentTemplates }}"
+        wx:for-index="tIdx"
+        wx:key="name"
+        bindtap="onSelectTpl"
+        data-idx="{{ tIdx }}"
+      >
+        <text class="tpl-name">{{ item.name }}</text>
+        <text class="tpl-unit">{{ item.unit }}</text>
+      </view>
+      <view
+        class="tpl-item {{ selectedTpl === -1 ? 'tpl-active' : '' }}"
+        bindtap="onSelectTpl"
+        data-idx="{{ -1 }}"
+      >
+        <text class="tpl-name">✦ 自定义服务</text>
+        <text class="tpl-unit">自行填写</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤3：填写服务详情 -->
+  <view class="section" wx:if="{{ selectedCat && selectedTpl !== null }}">
+    <view class="section-title">服务详情</view>
+    <van-cell-group inset>
+      <van-field
+        label="服务名称"
+        required
+        placeholder="例如：小型犬日托"
+        value="{{ form.name }}"
+        bind:change="onNameInput"
+      ></van-field>
+      <van-field
+        label="服务描述"
+        type="textarea"
+        autosize="{{ { minHeight: 60 } }}"
+        placeholder="详细描述服务内容（选填）"
+        value="{{ form.desc }}"
+        bind:change="onDescInput"
+      ></van-field>
+      <van-field
+        label="服务价格"
+        required
+        type="digit"
+        placeholder="请输入价格"
+        value="{{ form.price }}"
+        bind:change="onPriceInput"
+      >
+        <view slot="right-icon" class="price-suffix-slot">
+          <text class="price-yuan">元</text>
+          <picker mode="selector" range="{{ unitOptions }}" value="{{ unitIdx }}" bindchange="onUnitChange">
+            <view class="unit-picker">{{ unitOptions[unitIdx] }} ▾</view>
+          </picker>
+        </view>
+      </van-field>
+    </van-cell-group>
+
+    <!-- 价格范围提示 -->
+    <view class="price-hint" wx:if="{{ priceHint }}">
+      <van-icon name="info-o" size="24rpx" color="#FF9800"></van-icon>
+      <text class="price-hint-text">{{ priceHint }}</text>
+    </view>
+
+    <!-- 服务图片 -->
+    <view class="upload-section">
+      <view class="upload-title">服务图片（最多3张，选填）</view>
+      <van-uploader
+        file-list="{{ imageList }}"
+        max-count="3"
+        bind:after-read="afterReadImage"
+        bind:delete="onDeleteImage"
+        image-fit="aspectFill"
+      ></van-uploader>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-area" wx:if="{{ selectedCat && selectedTpl !== null }}">
+    <van-button
+      type="primary"
+      block
+      round
+      loading="{{ saving }}"
+      loading-text="保存中..."
+      color="linear-gradient(135deg, #FF9800, #FFB74D)"
+      bindtap="onSubmit"
+    >
+      {{ isEdit ? '保存修改' : '添加服务' }}
+    </van-button>
+  </view>
+
+</view>

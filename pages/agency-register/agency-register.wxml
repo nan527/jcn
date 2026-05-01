@@ -1,0 +1,55 @@
+<!-- pages/agency-register/agency-register.wxml -->
+<view class="register-page">
+  <view class="tip-bar">
+    <van-icon name="shield-o" size="30rpx" color="#FF9800"></van-icon>
+    <text class="tip-text">提交后需管理员审核，通过后机构账号可登录</text>
+  </view>
+
+  <van-cell-group inset title="一、基础入驻信息（必填）">
+    <van-field label="机构名称" required placeholder="请输入机构名称" value="{{ form.orgName }}" bind:change="onOrgNameChange"></van-field>
+    <van-field label="统一信用代码" required placeholder="请输入18位统一社会信用代码" value="{{ form.creditCode }}" bind:change="onCreditCodeChange"></van-field>
+    <van-field label="法人姓名" required placeholder="请输入法人姓名" value="{{ form.legalName }}" bind:change="onLegalNameChange"></van-field>
+    <van-field label="法人联系电话" required type="number" placeholder="请输入法人联系电话" value="{{ form.legalPhone }}" bind:change="onLegalPhoneChange"></van-field>
+    <van-field label="经营区域" required placeholder="省市区" value="{{ form.region }}" bind:change="onRegionChange"></van-field>
+    <van-field label="详细地址" required placeholder="详细门牌号" value="{{ form.detailAddress }}" bind:change="onDetailAddressChange"></van-field>
+  </van-cell-group>
+
+  <van-cell-group inset title="二、资质安全信息" style="margin-top: 24rpx;">
+    <view class="upload-item">
+      <text class="upload-label required">营业执照</text>
+      <van-uploader file-list="{{ licenseFileList }}" max-count="1" bind:after-read="afterReadLicense" bind:delete="onDeleteLicense"></van-uploader>
+    </view>
+    <view class="upload-item">
+      <text class="upload-label">经营许可证/资质证书（可选）</text>
+      <van-uploader file-list="{{ permitFileList }}" max-count="1" bind:after-read="afterReadPermit" bind:delete="onDeletePermit"></van-uploader>
+    </view>
+    <view class="upload-item">
+      <text class="upload-label required">门头实景照片</text>
+      <van-uploader file-list="{{ storefrontFileList }}" max-count="1" bind:after-read="afterReadStorefront" bind:delete="onDeleteStorefront"></van-uploader>
+    </view>
+  </van-cell-group>
+
+  <van-cell-group inset title="三、业务属性信息" style="margin-top: 24rpx;">
+    <picker mode="selector" range="{{ businessTypeOptions }}" value="{{ businessTypeIndex }}" bindchange="onBusinessTypeChange">
+      <van-cell title="经营类型" value="{{ form.businessType || '请选择' }}" is-link></van-cell>
+    </picker>
+    <van-field label="可服务范围" placeholder="可寄养猫狗、24小时看护、上门服务等" value="{{ form.serviceScope }}" bind:change="onServiceScopeChange"></van-field>
+    <van-field label="营业时间" placeholder="例如：09:00-21:00" value="{{ form.businessHours }}" bind:change="onBusinessHoursChange"></van-field>
+    <van-field label="预约方式" placeholder="例如：电话/微信/小程序" value="{{ form.appointmentMethod }}" bind:change="onAppointmentMethodChange"></van-field>
+  </van-cell-group>
+
+  <van-cell-group inset title="四、账号与权限信息" style="margin-top: 24rpx;">
+    <van-field label="机构登录账号" required placeholder="用于机构登录" value="{{ form.account }}" bind:change="onAccountChange"></van-field>
+    <van-field label="登录密码" required password placeholder="请输入密码（至少6位）" value="{{ form.password }}" bind:change="onPasswordChange"></van-field>
+    <van-field label="紧急联系人" placeholder="请输入紧急联系人姓名" value="{{ form.emergencyContact }}" bind:change="onEmergencyContactChange"></van-field>
+    <van-field label="备用电话" type="number" placeholder="请输入备用电话" value="{{ form.backupPhone }}" bind:change="onBackupPhoneChange"></van-field>
+    <van-field label="机构简介" type="textarea" autosize="{{ { minHeight: 80 } }}" placeholder="机构介绍、服务优势" value="{{ form.orgIntro }}" bind:change="onOrgIntroChange"></van-field>
+    <van-field label="招牌项目" type="textarea" autosize="{{ { minHeight: 80 } }}" placeholder="例如：24h托管、术后护理等" value="{{ form.signatureService }}" bind:change="onSignatureServiceChange"></van-field>
+  </van-cell-group>
+
+  <view class="submit-area">
+    <van-button type="primary" block round loading="{{ submitting }}" loading-text="提交中..." color="linear-gradient(135deg, #FF9800, #FFB74D)" bindtap="submit">
+      提交入驻申请
+    </van-button>
+  </view>
+</view>

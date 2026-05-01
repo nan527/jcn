@@ -1,0 +1,69 @@
+<!-- pages/my/my.wxml -->
+<view class="my-page">
+
+  <!-- 顶部用户卡片（带背景图） -->
+  <view class="user-header" bindtap="handleHeaderTap">
+    <image class="user-header__bg" src="/static/user-bg.png" mode="aspectFill" />
+    <view class="user-header__content">
+      <view class="avatar-wrap">
+        <image
+          class="user-avatar"
+          src="{{ userInfo.avatar || '/static/missing-face.png' }}"
+          mode="aspectFill"
+        />
+        <view class="avatar-edit-badge" wx:if="{{ userInfo }}">
+          <van-icon name="edit" size="20rpx" color="#fff"></van-icon>
+        </view>
+      </view>
+      <view class="user-meta">
+        <text class="user-nickname">{{ userInfo ? nickname : '点击登录' }}</text>
+        <view class="user-role-badge" wx:if="{{ userInfo }}">
+          <image class="role-badge-icon" src="/static/tab-my-orange.png" mode="aspectFit" />
+          <text class="role-badge-text">{{ roleName }}</text>
+        </view>
+        <text class="user-login-hint" wx:else>登录后享受更多服务</text>
+      </view>
+      <van-icon wx:if="{{ userInfo }}" name="arrow" size="32rpx" color="rgba(255,255,255,0.6)" custom-style="margin-left:auto;"></van-icon>
+    </view>
+  </view>
+
+  <!-- 功能入口卡片 -->
+  <view class="func-card">
+    <view class="func-card__title">我的服务</view>
+    <view class="func-grid">
+      <view class="func-grid__item" bindtap="toPetArchive">
+        <image class="func-grid__icon" src="/static/tab-pet-orange.png" mode="aspectFit" />
+        <text class="func-grid__label">宠物档案</text>
+      </view>
+      <view class="func-grid__item" bindtap="toFosterCenter">
+        <image class="func-grid__icon" src="/static/tab-cart-orange.png" mode="aspectFit" />
+        <text class="func-grid__label">寄养领养</text>
+      </view>
+      <view class="func-grid__item" bindtap="toHealthRemind">
+        <image class="func-grid__icon" src="/static/tab-notify-orange.png" mode="aspectFit" />
+        <text class="func-grid__label">健康提醒</text>
+      </view>
+      <view class="func-grid__item" bindtap="toForum">
+        <image class="func-grid__icon" src="/static/tab-forum-orange.png" mode="aspectFit" />
+        <text class="func-grid__label">宠物社区</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 常用菜单 -->
+  <van-cell-group inset>
+    <van-cell title="个人订单" icon="orders-o" is-link bindtap="toOrders"></van-cell>
+    <van-cell title="我的帖子" icon="comment-o" is-link bindtap="toMyPosts"></van-cell>
+  </van-cell-group>
+
+  <!-- 管理员功能 -->
+  <van-cell-group inset style="margin-top: 24rpx;" wx:if="{{ userInfo.role === 'admin' }}">
+    <van-cell title="系统后台" icon="setting-o" is-link bindtap="toAdminPanel"></van-cell>
+  </van-cell-group>
+
+  <!-- 退出登录 -->
+  <view class="logout-area" wx:if="{{ userInfo }}">
+    <van-button block round plain type="danger" size="normal" bindtap="handleLogout">退出登录</van-button>
+  </view>
+
+</view>
